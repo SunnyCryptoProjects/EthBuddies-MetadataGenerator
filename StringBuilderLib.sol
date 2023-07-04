@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/utils/math/Math.sol";
 library StringBuilderLib {
 	bytes16 private constant _SYMBOLS = "0123456789";
 
-    struct StringBuilder {
+	struct StringBuilder {
 		bytes buf;
 		uint256 len;
 	}
@@ -55,31 +55,31 @@ library StringBuilderLib {
 			uint256 len = stringBuilder.len;
 
 			// @dev Add an additonal 1 for the fixed point
-            uint256 length = Math.log10(value) + 1 + 1; 
+			uint256 length = Math.log10(value) + 1 + 1; 
 			uint256 i = 0;
-            uint256 ptr;
-            /// @solidity memory-safe-assembly
-            assembly {
-                ptr := add(buf, add(add(len, 32), length))
-            }
-            while (true) {
+			uint256 ptr;
+			/// @solidity memory-safe-assembly
+			assembly {
+				ptr := add(buf, add(add(len, 32), length))
+			}
+			while (true) {
 				// @dev include the fixed point to account for div 100000
 				if (i == 1) {
 					ptr--;
 					/// @solidity memory-safe-assembly
-                	assembly {
-                    	mstore8(ptr, byte(0, "."))
-                	}
+					assembly {
+						mstore8(ptr, byte(0, "."))
+					}
 				}
-                ptr--;
-                /// @solidity memory-safe-assembly
-                assembly {
-                    mstore8(ptr, byte(mod(value, 10), _SYMBOLS))
-                }
-                value /= 10;
-                if (value == 0) break;
+				ptr--;
+				/// @solidity memory-safe-assembly
+				assembly {
+					mstore8(ptr, byte(mod(value, 10), _SYMBOLS))
+				}
+				value /= 10;
+				if (value == 0) break;
 				i += 1;
-            }
+			}
 			stringBuilder.len += length;
 			// @dev loop back and decrement length to trim trailing zeros
 			while (true) {
@@ -93,7 +93,7 @@ library StringBuilderLib {
 				}
 				stringBuilder.len--;
 			}
-        }
+		}
 	}
 
 	function trimOne(StringBuilder memory stringBuilder) internal pure {
@@ -105,7 +105,7 @@ library StringBuilderLib {
 	) internal pure returns (bytes memory) {
 		bytes memory buf = stringBuilder.buf;
 		uint256 len = stringBuilder.len;
-        /// @solidity memory-safe-assembly
+		/// @solidity memory-safe-assembly
 		assembly {
 			mstore(buf, len)
 		}

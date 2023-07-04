@@ -16,21 +16,21 @@ contract MetadataGenerator is Ownable {
 		string value;
 	}
 
-    struct Body {
-        string name;
-        bytes path;
+	struct Body {
+		string name;
+		bytes path;
 		uint256 destlen;
-    }
+	}
 
 	struct Face {
-        string name;
-        bytes path;
+		string name;
+		bytes path;
 		uint256 destlen;
-    }
+	}
 
-    mapping(uint8 => Color) public colors;
-    mapping(uint8 => Body) public bodies;
-    mapping(uint8 => Face) public faces;
+	mapping(uint8 => Color) public colors;
+	mapping(uint8 => Body) public bodies;
+	mapping(uint8 => Face) public faces;
 	
 	string public externalUrlPrefix;
 
@@ -51,7 +51,7 @@ contract MetadataGenerator is Ownable {
 		}
 	}
 
-    function setBodies(
+	function setBodies(
 		uint8[] calldata ids,
 		string[] calldata names,
 		bytes[] calldata paths,
@@ -64,9 +64,9 @@ contract MetadataGenerator is Ownable {
 				destlen: destlens[i]
 			});
 		}
-    }
+	}
 
-    function setFaces(
+	function setFaces(
 		uint8[] calldata ids,
 		string[] calldata names,
 		bytes[] calldata paths,
@@ -79,7 +79,7 @@ contract MetadataGenerator is Ownable {
 				destlen: destlens[i]
 			});
 		}
-    }
+	}
 
 	function setExternalUrlPrefix(string memory _externalUrlPrefix) external onlyOwner {
 		externalUrlPrefix = _externalUrlPrefix;
@@ -127,9 +127,9 @@ contract MetadataGenerator is Ownable {
 		bytes memory _face
 	) private pure {
 		StringBuilderLib.writeString(stringBuilder, "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><svg width=\"1e3\" height=\"1e3\" viewBox=\"0 0 1e3 1e3\" version=\"1.1\" id=\"svg115\" xml:space=\"preserve\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:svg=\"http://www.w3.org/2000/svg\">");
-       	writeSvgPath(stringBuilder, "body", _color, _body);
-       	writeSvgPath(stringBuilder, "face", "000000", _face);
-       	StringBuilderLib.writeString(stringBuilder, "</svg>");
+		writeSvgPath(stringBuilder, "body", _color, _body);
+		writeSvgPath(stringBuilder, "face", "000000", _face);
+		StringBuilderLib.writeString(stringBuilder, "</svg>");
 	}
 
 	function writeSvgPath(
